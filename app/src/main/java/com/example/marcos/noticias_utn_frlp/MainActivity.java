@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,8 +36,11 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import java.io.InputStream;
+
 
 public class MainActivity extends AppCompatActivity {
+
 
     SmartImageView smartImageView;
     ArrayList photo=new ArrayList();
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         scheduleAlarm();
 
     }
+
 
     /**
      * Conecta con la base de datos y coloca las imagenes en el listView
@@ -77,17 +83,18 @@ public class MainActivity extends AppCompatActivity {
                                 id.add(jsonArray.getJSONObject(i).getString("id"));
                             }
 
-                            final int tam2 = photo.size() - 1;
+                            final int tam = photo.size() - 1;
                             smartImageView=(SmartImageView)findViewById(R.id.imagen);
+                            final Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
-                            setImagen(tam2);
+                        setImagen(tam,rect);
 
                             final Button button1 = (Button)findViewById(R.id.buttonBack);
                             button1.setOnClickListener(new View.OnClickListener() {
                                 public void onClick (View v) {
-                                    if ( a < tam2 ) {
+                                    if ( a < tam ) {
                                         a = a + 1;
-                                        setImagen(tam2 - a);
+                                        setImagen(tam - a, rect);
                                     }
                                 }
                             }) ;
@@ -97,12 +104,11 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick (View v) {
                                     if ( a > 0  ) {
                                         a = a - 1;
-                                        setImagen(tam2 - a);
+                                        setImagen(tam - a, rect);
                                     }
                                 }
                             }) ;
 
-                            int tam = id.size() - 1;
 
                             if (!(tam < 0)) {
                                 File File = new File(getFilesDir(), INTERNAL_FILENAME);
@@ -117,10 +123,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
                 }
             }
@@ -150,10 +152,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void setImagen (int tam) {
+    public void setImagen (int tam, Rect rect) {
         if (!(tam < 0)) {
             String urlfinal = "http://192.168.0.13/NoticiasServices/uploads/" + photo.get(tam).toString();
-            Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
+            //Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
             smartImageView.setImageUrl(urlfinal, rect);
         }

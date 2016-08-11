@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     tools:context="com.example.marcos.noticias_utn_frlp.MainActivity"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:nestedScrollingEnabled="false"
+    android:background="@android:color/white" >
 
     <com.github.snowdream.android.widget.SmartImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/imagen"
-        android:scaleType="fitXY"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:scaleType="centerInside"
+        android:nestedScrollingEnabled="false" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="2">
+        android:layout_gravity="center_horizontal">
 
         <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="&lt;"
             android:id="@+id/buttonBack"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:textSize="45dp"
+            android:textStyle="bold" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=">"
             android:id="@+id/buttonNext"
             android:layout_gravity="right"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="45dp"
+            android:singleLine="true" />
+
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desarrollado por La UTN-FRLP"
+        android:id="@+id/textView"
+        android:textAlignment="center" />
 
 </LinearLayout>

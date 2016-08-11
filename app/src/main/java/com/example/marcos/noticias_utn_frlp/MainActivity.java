@@ -77,52 +77,57 @@ public class MainActivity extends AppCompatActivity {
                 if (statusCode==200){
                     progressDialog.dismiss();
                     try {
-                            JSONArray jsonArray = new JSONArray(new String(responseBody));
-                            for (int i=0;i<jsonArray.length();i++){
-                                photo.add(jsonArray.getJSONObject(i).getString("photo"));
-                                id.add(jsonArray.getJSONObject(i).getString("id"));
-                            }
+                        JSONArray jsonArray = new JSONArray(new String(responseBody));
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            photo.add(jsonArray.getJSONObject(i).getString("photo"));
+                            id.add(jsonArray.getJSONObject(i).getString("id"));
+                        }
 
-                            final int tam = photo.size() - 1;
-                            smartImageView=(SmartImageView)findViewById(R.id.imagen);
-                            final Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
+                        final int tam = photo.size() - 1;
+                        smartImageView = (SmartImageView) findViewById(R.id.imagen);
+                        final Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
-                        setImagen(tam,rect);
+                        setImagen(tam, rect);
 
-                            final Button button1 = (Button)findViewById(R.id.buttonBack);
-                            button1.setOnClickListener(new View.OnClickListener() {
-                                public void onClick (View v) {
-                                    if ( a < tam ) {
-                                        a = a + 1;
-                                        setImagen(tam - a, rect);
-                                    }
-                                }
-                            }) ;
-
-                            final Button button2 = (Button)findViewById(R.id.buttonNext);
-                            button2.setOnClickListener(new View.OnClickListener() {
-                                public void onClick (View v) {
-                                    if ( a > 0  ) {
-                                        a = a - 1;
-                                        setImagen(tam - a, rect);
-                                    }
-                                }
-                            }) ;
-
-
-                            if (!(tam < 0)) {
-                                File File = new File(getFilesDir(), INTERNAL_FILENAME);
-                                try {
-
-                                    String str = id.get(tam).toString();
-                                    FileWriter out = new FileWriter(File);
-                                    out.write(str);
-                                    out.close();
-
-                                } catch (IOException e) {
-                                    Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
+                        final Button button1 = (Button) findViewById(R.id.buttonBack);
+                        button1.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                if (a < tam) {
+                                    a = a + 1;
+                                    setImagen(tam - a, rect);
                                 }
                             }
+                        });
+
+                        final Button button2 = (Button) findViewById(R.id.buttonNext);
+                        button2.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                if (a > 0) {
+                                    a = a - 1;
+                                    setImagen(tam - a, rect);
+                                }
+                            }
+                        });
+
+
+                        if (!(tam < 0)) {
+                            File File = new File(getFilesDir(), INTERNAL_FILENAME);
+                            try {
+
+                                String str = id.get(tam).toString();
+                                FileWriter out = new FileWriter(File);
+                                out.write(str);
+                                out.close();
+
+                            } catch (IOException e) {
+                                Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    catch (JSONException  e) {
+
+                    }
 
                 }
             }

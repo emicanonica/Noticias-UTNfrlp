@@ -62,7 +62,7 @@
         ?>
 
             <form action="uploader.php" method="POST" enctype="multipart/form-data" class="upload">
-                <div><label for="imagen">Imagen:</label><input type="file" name="imagen" id="imagen" /></div>
+                <div><label for="imagen">Noticia:</label><input type="file" name="imagen" id="imagen" /></div>
                 <div><input type="submit" name="subir" value="Subir"/></div>
             </form>
             <form action="borrar.php" method="POST" class="borrar">

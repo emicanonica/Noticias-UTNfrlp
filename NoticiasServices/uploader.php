@@ -13,6 +13,45 @@
 	if ($_FILES["imagen"]["error"] > 0){
 		echo "ha ocurrido un error";
 	} else {
+
+		$imagick = new Imagick();
+		$imagick->readImage($_FILES["imagen"]["tmp_name"]."[0]");
+
+
+		$rs = @mysql_query("SELECT MAX(id) AS id FROM noticias");
+		if ($row = mysql_fetch_row($rs)) {
+			$id = trim($row[0]);
+		}
+
+		$filename = "noticia" . ($id + 1) . ".jpg";
+
+		$imagick->writeImage('uploads/' . $filename);
+
+		$resultado = @mysql_query("SELECT * FROM `noticias`");
+					
+		$rows = @mysql_num_rows($resultado);
+		if ($rows < 10){
+			echo "el archivo ha sido movido exitosamente";
+			//$nombre = $_FILES['imagen']['name'];
+			@mysql_query("INSERT INTO `noticias`(`photo`) VALUES ('$filename')");
+		} else {
+			//aqui borramos de la carpeta upload y de la base de datos la noticia más antigua
+			echo "el archivo ha sido movido exitosamente";
+			$resultado = @mysql_query("SELECT photo FROM `noticias` LIMIT 1");
+			$fila = mysql_fetch_assoc($resultado);
+			$file = $fila['photo'];
+			unlink("uploads/" . $file);
+			//if (unlink("uploads/" . $file)){
+			//	echo "archivo borrado";
+			//} else {
+			//	echo "error al borrar";
+			//}
+			@mysql_query("DELETE FROM noticias LIMIT 1");
+			$nombre = $_FILES['imagen']['name'];
+                @mysql_query("INSERT INTO `noticias`(`photo`) VALUES ('$filename')");
+		}
+		
+		/*
 		//ahora vamos a verificar si el tipo de archivo es un tipo de imagen permitido.
 		//y que el tamano del archivo no exceda los 1024kb
 		$permitidos = array("image/jpg", "image/jpeg");
@@ -64,6 +103,7 @@
 		} else {
 			echo "archivo no permitido, es tipo de archivo prohibido o excede el tamano de $limite_kb Kilobytes";
 		}
+		*/
 	}
 ?>
 </body>

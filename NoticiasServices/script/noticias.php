@@ -1,6 +1,6 @@
 <?php
 
-$con = mysql_connect('localhost', 'root', 'corleone23');
+$con = mysql_connect('localhost', 'root', '37559721v');
 mysql_query("SET CHARACTER SET utf8");
 mysql_query("SET NAMES utf8");
 

@@ -8,13 +8,12 @@
 <body>
 	<?php
 		//conexion a la base de datos
-		mysql_connect("localhost", "root", "corleone23") or die(mysql_error()) ;
-		mysql_select_db("noticias") or die(mysql_error());
-		$resultado = @mysql_query("SELECT * FROM `noticias` ORDER BY `id` DESC LIMIT 1");
-		$fila = mysql_fetch_assoc($resultado);
-		$file = $fila['photo'];
+		include_once "conexion.php";
+		$resultado = @mysqli_query($con,"SELECT * FROM `noticias` ORDER BY `id` DESC LIMIT 1");
+		$fila = mysqli_fetch_assoc($resultado);
+		$file = $fila['noticia'];
 		unlink("uploads/" . $file);
-		if (@mysql_query("DELETE FROM `noticias` ORDER BY `id` DESC LIMIT 1")) {
+		if (@mysqli_query($con,"DELETE FROM `noticias` ORDER BY `id` DESC LIMIT 1")) {
 			echo "Borrado con exito";
 		} else {
 			echo "error al borrar";

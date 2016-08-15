@@ -7,16 +7,18 @@
 	</head>
 	<body>
         <h1>UTN-FRLP Noticias</h1>
+
 		<?php
 			session_start();
-			include_once "conexion.php";
 
-			function verificar_login($user,$password,&$result) {
+			include "conexion.php";
+
+			function verificar_login($con,$user,$password,&$result) {
     				$sql = "SELECT * FROM usuarios WHERE usuario = '$user' and password = '$password'";
-    				$rec = mysql_query($sql);
+    				$rec = mysqli_query($con,$sql);
     				$count = 0;
 
-    				while($row = mysql_fetch_object($rec))
+    				while($row = mysqli_fetch_object($rec))
     				{
         				$count++;
         				$result = $row;
@@ -37,7 +39,7 @@
 			{
     				if(isset($_POST['login']))
     				{
-        				if(verificar_login($_POST['user'],$_POST['password'],$result) == 1)
+        				if(verificar_login($con,$_POST['user'],$_POST['password'],$result) == 1)
         				{
             					$_SESSION['id'] = $result->id;
             					header("location:index.php");
@@ -48,22 +50,23 @@
         				}
     				}
 		?>
-        
+
 		<form action="" method="post" class="login">
     			<div><label>Usuario</label><input name="user" type="text" ></div>
     			<div><label>Contraseña</label><input name="password" type="password"></div>
     			<div><input name="login" type="submit" value="login"></div>
-
 		</form>
 
 		<?php
-			} else { 
+			} else {
     				//header("location:cargar-noticia.php");
         ?>
 
             <form action="uploader.php" method="POST" enctype="multipart/form-data" class="upload">
-                <div><label for="imagen">Noticia:</label><input type="file" name="imagen" id="imagen" /></div>
-                <div><input type="submit" name="subir" value="Subir"/></div>
+                <div><label for="imagen">Seleccionar Imagen o PDF a subir:</label></div>
+								<hr>
+								<div><input type="file" name="imagen" id="imagen" /></div>
+								<div><input name="subir" type="submit" value="Subir"></div>
             </form>
             <form action="borrar.php" method="POST" class="borrar">
                 <div><input type="submit" name="borrar" value="Borrar ultima noticia"/></div>

@@ -20,7 +20,7 @@
 				</script>
 	</head>
 	<body>
-        <h1>UTN-FRLP Noticias</h1>
+        <h1><img src="rcs/UTN.png" class="logo">UTN-FRLP Noticias</h1>
 
 		<?php
 			session_start();
@@ -84,7 +84,6 @@
 				<div style="margin-right:100px"><input name="subir" type="submit" value="Subir"></div>
     </form>
 
-    <p> Su usuario ingreso correctamente.</p>
     <?php
         echo '<p class="logout"><a href="logout.php">Logout</a></p>';
     ?>
@@ -92,10 +91,13 @@
 		<?php
 		if(isset($_GET['delete_id']))
 			{
-			 $sql_query="DELETE FROM noticias WHERE id=".$_GET['delete_id'];
-			 mysqli_query($con,$sql_query);
-			 header("Location: index.php");
-			 unlink("uploads/" .$row["noticia"]);
+				$resultado = @mysqli_query($con,"SELECT * FROM `noticias` WHERE id=".$_GET['delete_id']);
+				$fila = mysqli_fetch_assoc($resultado);
+				$file = $fila['noticia'];
+				unlink("uploads/" . $file);
+			 	$sql_query="DELETE FROM noticias WHERE id=".$_GET['delete_id'];
+			 	mysqli_query($con,$sql_query);
+			 	header("Location: index.php");
 		}
 
 		echo "<form class='rows'>";
@@ -122,11 +124,10 @@
 				} // fin del bucle de instrucciones
 				mysqli_free_result($result); // Liberamos los registros
 				mysqli_close($link); // Cerramos la conexion con la base de datos
-				echo "<hr>";
 				echo "</form>";
 			}
 			else {
-				echo "no hay datos";
+				echo "<p>No hay noticias cargadas</p>";
 			}
 		 } ?>
 	</body>

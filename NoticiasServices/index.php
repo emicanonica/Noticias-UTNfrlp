@@ -14,9 +14,6 @@
 				     }
 				}
 
-				function show_img(img) {
-				  window.open("http://localhost/NoticiasServices/uploads/noticia21.jpg")
-				}
 				</script>
 	</head>
 	<body>
@@ -119,7 +116,7 @@
 				<td>'.$row['id'].'</td>
 				<td>'.$row["noticia"].'</td>
 				<td><a href=javascript:delete_id('.$row[0].')><img src="rcs/trash_can.png" alt="Borrar" /></a>
-				<a href=javascript:window.open("http://localhost/NoticiasServices/uploads/'.$row["noticia"].'","imagen","height=792,width=612")><img src="rcs/show_img.png" alt="Ver" /></a></td>
+				<a href=javascript:window.open("uploads/'.$row["noticia"].'","imagen","height=792,width=612")><img src="rcs/show_img.png" alt="Ver" /></a></td>
 				</tr></table>';
 				} // fin del bucle de instrucciones
 				mysqli_free_result($result); // Liberamos los registros

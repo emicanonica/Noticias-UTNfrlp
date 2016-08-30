@@ -1,23 +1,23 @@
 <?php
 
-$con = mysql_connect('localhost', 'root', '37559721v');
+$con = mysqli_connect('localhost', 'root', '37559721v','noticias');
 mysql_query("SET CHARACTER SET utf8");
 mysql_query("SET NAMES utf8");
 
 
 if( $con )
 {
-    mysql_select_db('noticias');
+    //mysql_select_db('noticias');
 
-	$sql = "SELECT `id`, `photo` FROM `noticias`";
-   	$result = mysql_query($sql, $con);
+	$sql = "SELECT `id`, `noticia` FROM `noticias`";
+  $result = mysqli_query($con,$sql);
 	$json = array();
 
-	if(mysql_num_rows($result)){
-    		while( $row = mysql_fetch_object($result)){
+	if(mysqli_num_rows($result)){
+    		while( $row = mysqli_fetch_object($result)){
         		$json[]=$row;
     	}	}
-    	mysql_close($con);
+    	mysqli_close($con);
 	echo json_encode($json);
 }
 

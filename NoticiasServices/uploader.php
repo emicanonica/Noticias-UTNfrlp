@@ -4,14 +4,13 @@
 	<title>UTN-FRLP Noticias</title>
 	<link href="estilo.css" rel="stylesheet" type="text/css">
 	<link rel="shortcut icon" href="rcs/UTN.ico">
-	<META HTTP-EQUIV="Refresh" CONTENT="3; URL=index.php"> 
+	<META HTTP-EQUIV="Refresh" CONTENT="3; URL=index.php">
 </head>
 <body>
 	<?php
 	//conexion a la base de datos
 	include "conexion.php";
-	//mysqli_connect("localhost", "root", "37559721v") or die(mysql_error());
-	//mysqli_select_db($con,"noticias") or die(mysql_error()) ;
+
 
 	if ($_FILES["imagen"]["error"] > 0){
 		echo "<h1>ha ocurrido un error</h1>";

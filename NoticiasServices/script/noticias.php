@@ -1,13 +1,11 @@
 <?php
 
-$con = mysqli_connect('localhost', 'root', '37559721v','noticias');
-mysql_query("SET CHARACTER SET utf8");
-mysql_query("SET NAMES utf8");
+//$con = mysqli_connect('localhost', 'root', '37559721v','noticias');
+include "../conexion.php";
 
+mysqli_query($con,"SET CHARACTER SET utf8");
+mysqli_query($con,"SET NAMES utf8");
 
-if( $con )
-{
-    //mysql_select_db('noticias');
 
 	$sql = "SELECT `id`, `noticia` FROM `noticias`";
   $result = mysqli_query($con,$sql);
@@ -19,6 +17,5 @@ if( $con )
     	}	}
     	mysqli_close($con);
 	echo json_encode($json);
-}
 
 ?>

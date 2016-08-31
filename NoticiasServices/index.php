@@ -108,7 +108,7 @@
 				echo '<table><tr>
 				<td><h3><b>ID</b></h3></td>
 				<td><h3><b>Noticia</b></h3></td>
-				<td><h3><b>Opciones</b></h3></td>
+				<td><h3><b>Acciones</b></h3></td>
 				</tr>';
 				while($row = mysqli_fetch_array($result)) {
 				// $row es un array con todos los campos existentes en la tabla

@@ -4,19 +4,15 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.snowdream.android.widget.SmartImageView;
@@ -31,18 +27,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-import java.io.InputStream;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
-    SmartImageView smartImageView;
+    //SmartImageView smartImageView;
+    ZoomableImageView smartImageView;
     ArrayList photo=new ArrayList();
     ArrayList id= new ArrayList();
     public int a = 0;
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.0.13/NoticiasServices/script/noticias.php", new AsyncHttpResponseHandler() {
+        client.get("http://utn-frlp-noticias.ueuo.com/script/noticias.php", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode==200){
@@ -79,12 +76,13 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONArray jsonArray = new JSONArray(new String(responseBody));
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            photo.add(jsonArray.getJSONObject(i).getString("photo"));
+                            photo.add(jsonArray.getJSONObject(i).getString("noticia"));
                             id.add(jsonArray.getJSONObject(i).getString("id"));
                         }
 
                         final int tam = photo.size() - 1;
-                        smartImageView = (SmartImageView) findViewById(R.id.imagen);
+                        //smartImageView = (SmartImageView) findViewById(R.id.imagen);
+                        smartImageView = (ZoomableImageView) findViewById(R.id.imagen);
                         final Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
                         setImagen(tam, rect);
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     catch (JSONException  e) {
-
+                        Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -159,12 +157,43 @@ public class MainActivity extends AppCompatActivity {
 
     public void setImagen (int tam, Rect rect) {
         if (!(tam < 0)) {
-            String urlfinal = "http://192.168.0.13/NoticiasServices/uploads/" + photo.get(tam).toString();
+            String urlfinal = "http://utn-frlp-noticias.ueuo.com/uploads/" + photo.get(tam).toString();
             //Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
             smartImageView.setImageUrl(urlfinal, rect);
         }
     }
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage) throws IOException {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,"profile.jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            fos.close();
+        }
+        return directory.getAbsolutePath();
+    }
+
 
 }
 

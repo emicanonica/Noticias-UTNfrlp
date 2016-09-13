@@ -11,9 +11,14 @@ public class MyAlarmReceiver extends BroadcastReceiver {
     // Desencadena por la alarma periódicamente (inicia el servicio para ejecutar la tarea)
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Intent i = new Intent(context, Notificacion.class);
         i.putExtra("foo", "bar");
         context.startService(i);
+        /*
+        Intent myIntent = new Intent(context, Notificacion.class);
+        context.startService(myIntent);
+        */
     }
 
 }

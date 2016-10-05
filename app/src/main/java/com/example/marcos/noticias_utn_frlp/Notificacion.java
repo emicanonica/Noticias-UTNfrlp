@@ -83,24 +83,26 @@ public class Notificacion extends Service {
 
                         File File = new File(getFilesDir(), INTERNAL_FILENAME);
 
-                        try {
-                            BufferedReader bReader = new BufferedReader(new FileReader(File));
-                            String textRead = bReader.readLine();
+                        if (jsonArray.length() != 0) {
+                            try {
+                                BufferedReader bReader = new BufferedReader(new FileReader(File));
+                                String textRead = bReader.readLine();
 
-                            int tam = id.size() - 1;
-                            String actualID = id.get(tam).toString();
-                            int a1 = Integer.parseInt(textRead);
-                            int a2 = Integer.parseInt(actualID);
+                                int tam = id.size() - 1;
+                                String actualID = id.get(tam).toString();
+                                int a1 = Integer.parseInt(textRead);
+                                int a2 = Integer.parseInt(actualID);
 
-                            if (a2 > a1) {
-                                creaNotificacion(0, "Notificación Android!", "Noticia nueva", getApplicationContext());
-                                FileWriter out = new FileWriter(File);
-                                out.write(actualID);
-                                out.close();
+                                if (a2 > a1) {
+                                    creaNotificacion(0, "Notificación Android!", "Noticia nueva", getApplicationContext());
+                                    FileWriter out = new FileWriter(File);
+                                    out.write(actualID);
+                                    out.close();
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
 
                     } catch (JSONException e) {

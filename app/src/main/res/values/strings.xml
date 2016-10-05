@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Noticias-UTN-FRLP</string>
+    <string name="http_source">http://utn-frlp-noticias.ueuo.com</string>
 </resources>

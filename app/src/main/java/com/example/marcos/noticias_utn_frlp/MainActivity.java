@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
             //Rect rect = new Rect(smartImageView.getLeft(), smartImageView.getTop(), smartImageView.getRight(), smartImageView.getBottom());
 
             smartImageView.setImageUrl(urlfinal, rect);
+        } else {
+            smartImageView.setImageDrawableId(R.drawable.exeption_image, rect);
         }
     }
 
